@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Надежда Миткалева](https://up.htmlacademy.ru/javascript/21/user/892071).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Карцев] (https://htmlacademy.ru/profile/id663289)
 
 ---
 
