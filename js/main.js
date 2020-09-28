@@ -4,7 +4,7 @@ const map = document.querySelector(`.map`);
 const mapPins = map.querySelector(`.map__pins`);
 const template = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
-const similarAdverts = [];
+const adverts = [];
 
 const TYPES = [`palace`, `flat`, `house`, `bungalow`];
 const CHECKIN = [`12.00`, `13.00`, `14.00`];
@@ -17,19 +17,17 @@ const HEIGHT_MARKER = 70;
 
 map.classList.remove(`map--faded`);
 
-
 // генерация случайных значений
 function getRandomValue(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-
 // добавляем объект в массив
 
 for (let i = 0; i < 8; i++) {
-  let objPattern = {
+  let advert = {
     author: {
-      avatar: `url(img/avatars/user0${i + 1}.png)`
+      avatar: `img/avatars/user0${i + 1}.png`
     },
 
     offer: {
@@ -51,25 +49,22 @@ for (let i = 0; i < 8; i++) {
       y: getRandomValue(130, 630)
     }
   };
-  similarAdverts.push(objPattern);
+  adverts.push(advert);
 }
 
 // задача 3
 function getMarkers(markers) {
-  for (let i = 0; i <= markers.length; i++) {
+  for (let i = 0; i < markers.length; i++) {
     let markerElement = template.cloneNode(true);
     markerElement.classList.add(`map__pin`);
 
-    let leftOffset = `${markers[i].location.x - (WIDTH_MARKER / 2)}px`;
-    let topOffset = `${markers[i].location.y - HEIGHT_MARKER}px`;
-    markerElement.style.left = leftOffset;
-    markerElement.style.top = topOffset;
-    markerElement.querySelector(`img`).style.src = markers[i].author.avatar;
-    markerElement.querySelector(`img`).style.alt = markers[i].offer.title;
+    markerElement.style.left = `${markers[i].location.x - (WIDTH_MARKER / 2)}px`;
+    markerElement.style.top = `${markers[i].location.y - HEIGHT_MARKER}px`;
+    markerElement.querySelector(`img`).src = markers[i].author.avatar;
+    markerElement.querySelector(`img`).alt = markers[i].offer.title;
 
     mapPins.appendChild(markerElement);
   }
-  return getMarkers();
 }
 
-getMarkers(similarAdverts);
+getMarkers(adverts);
