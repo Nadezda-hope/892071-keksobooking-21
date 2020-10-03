@@ -118,10 +118,12 @@ function showPage() {
 }
 
 function showAddress() {
-  if (inputAddress.disabled) {
-    inputAddress.value = `${location.x + HEIGHT_MARKER}, ${location.y + WIDTH_MARKER}`;
-  } else {
-    inputAddress.value = `${location.x + WIDTH_PIN_MAIN / 2}, ${location.y + WIDTH_PIN_MAIN / 2}`;
+  for (let i = 0; i < adverts.length; i++) {
+    if (inputAddress.disabled) {
+      inputAddress.value = `${adverts[i].location.x + HEIGHT_MARKER}, ${adverts[i].location.y + WIDTH_MARKER}`;
+    } else {
+      inputAddress.value = `${adverts[i].location.x + WIDTH_PIN_MAIN / 2}, ${adverts[i].location.y + WIDTH_PIN_MAIN / 2}`;
+    }
   }
 }
 
