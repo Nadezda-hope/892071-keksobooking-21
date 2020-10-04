@@ -16,14 +16,12 @@ const WIDTH_MARKER = 50;
 const HEIGHT_MARKER = 70;
 const WIDTH_PIN_MAIN = 200;
 
-const adFormFieldsets = document.querySelectorAll(`.ad-form__element`);
 const adForm = document.querySelector(`.ad-form`);
-const adFormHeader = document.querySelector(`.ad-form-header`);
+const adFormChildren = document.querySelector(`.ad-form`).children;
 const inputAddress = adForm.querySelector(`input[name="address"]`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
 const mapFiltersForm = document.querySelector(`.map__filters`);
-const mapSelectFilters = mapFiltersForm.querySelectorAll(`.map__filter`);
-const mapFeatures = mapFiltersForm.querySelector(`.map__features`);
+const mapFiltersFormChildren = document.querySelector(`.map__filters`).children;
 const mapSelectRooms = mapFiltersForm.querySelector(`#housing-rooms`);
 const mapSelectGuests = mapFiltersForm.querySelector(`#housing-guests`);
 
@@ -78,33 +76,23 @@ function getMarkers(markers) {
 }
 
 // добавление атрибута disabled
-function getDisabledInput() {
-  for (let i = 0; i < mapSelectFilters.length; i++) {
-    mapSelectFilters[i].setAttribute(`disabled`, true);
+function toggleDisabledInput(elements) {
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].toggleAttribute(`disabled`);
   }
-  for (let i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].setAttribute(`disabled`, true);
-  }
-  mapFeatures.setAttribute(`disabled`, true);
-  adFormHeader.setAttribute(`disabled`, true);
 }
 
-getDisabledInput();
+toggleDisabledInput(adFormChildren);
+toggleDisabledInput(mapFiltersFormChildren);
 
-function getEnableInput() {
-  for (let i = 0; i < mapSelectFilters.length; i++) {
-    mapSelectFilters[i].removeAttribute(`disabled`, false);
-  }
-  for (let i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].removeAttribute(`disabled`, false);
-  }
-  mapFeatures.removeAttribute(`disabled`, false);
-  adFormHeader.removeAttribute(`disabled`, false);
-}
-
-function onPinsClick(evt) {
-  if (evt.button === 0) {
-    showPage();
+// обработка события
+function showAddress() {
+  let coordPinX = mapPinMain.offsetTop;
+  let coordPinY = mapPinMain.offsetLeft;
+  if (inputAddress.disabled) {
+    inputAddress.value = `${coordPinX + HEIGHT_MARKER}, ${coordPinY + WIDTH_MARKER}`;
+  } else {
+    inputAddress.value = `${coordPinX + WIDTH_PIN_MAIN / 2}, ${coordPinY + WIDTH_PIN_MAIN / 2}`;
   }
 }
 
@@ -112,36 +100,33 @@ function showPage() {
   map.classList.remove(`map--faded`);
   adForm.classList.remove(`ad-form--disabled`);
   getMarkers(adverts);
-  getEnableInput();
-
-  document.addEventListener(`mousedown`, onPinsClick);
-}
-
-function showAddress() {
-  for (let i = 0; i < adverts.length; i++) {
-    if (inputAddress.disabled) {
-      inputAddress.value = `${adverts[i].location.x + HEIGHT_MARKER}, ${adverts[i].location.y + WIDTH_MARKER}`;
-    } else {
-      inputAddress.value = `${adverts[i].location.x + WIDTH_PIN_MAIN / 2}, ${adverts[i].location.y + WIDTH_PIN_MAIN / 2}`;
-    }
-  }
+  toggleDisabledInput(adFormChildren);
+  toggleDisabledInput(mapFiltersFormChildren);
+  mapPinMain.removeEventListener(`mousedown`, onPinsClick);
+  mapPinMain.removeEventListener(`keydown`, onPinsEnterPress);
 }
 
 showAddress();
 
-mapPinMain.addEventListener(`mousedown`, function (evt) {
+function onPinsClick(evt) {
   if (evt.button === 0) {
+    evt.preventDefault();
     showPage();
     showAddress();
   }
-});
+}
 
-mapPinMain.removeEventListener(`mousedown`, function (evt) {
-  if (evt.button === 0) {
+function onPinsEnterPress(evt) {
+  if (evt.key === `Enter`) {
+    evt.preventDefault();
     showPage();
     showAddress();
   }
-});
+}
+
+mapPinMain.addEventListener(`mousedown`, onPinsClick);
+mapPinMain.addEventListener(`keydown`, onPinsEnterPress);
+
 
 // валидация формы
 
