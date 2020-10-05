@@ -12,18 +12,18 @@ const CHECKOUT = [`12.00`, `13.00`, `14.00`];
 const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
 
-const WIDTH_MARKER = 50;
-const HEIGHT_MARKER = 70;
-const WIDTH_PIN_MAIN = 200;
+const WIDTH_MARKER = 65;
+const HEIGHT_MARKER = 87;
 
 const adForm = document.querySelector(`.ad-form`);
 const adFormChildren = document.querySelector(`.ad-form`).children;
+const adSelectRooms = adForm.querySelector(`#room_number`);
+const adSelectGuests = adForm.querySelector(`#capacity`);
 const inputAddress = adForm.querySelector(`input[name="address"]`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
-const mapFiltersForm = document.querySelector(`.map__filters`);
 const mapFiltersFormChildren = document.querySelector(`.map__filters`).children;
-const mapSelectRooms = mapFiltersForm.querySelector(`#housing-rooms`);
-const mapSelectGuests = mapFiltersForm.querySelector(`#housing-guests`);
+const coordPinTop = mapPinMain.offsetTop;
+const coordPinLeft = mapPinMain.offsetLeft;
 
 // генерация случайных значений
 function getRandomValue(min, max) {
@@ -85,16 +85,8 @@ function toggleDisabledInput(elements) {
 toggleDisabledInput(adFormChildren);
 toggleDisabledInput(mapFiltersFormChildren);
 
-// обработка события
-function showAddress() {
-  let coordPinX = mapPinMain.offsetTop;
-  let coordPinY = mapPinMain.offsetLeft;
-  if (inputAddress.disabled) {
-    inputAddress.value = `${coordPinX + HEIGHT_MARKER}, ${coordPinY + WIDTH_MARKER}`;
-  } else {
-    inputAddress.value = `${coordPinX + WIDTH_PIN_MAIN / 2}, ${coordPinY + WIDTH_PIN_MAIN / 2}`;
-  }
-}
+
+inputAddress.value = `${coordPinTop + WIDTH_MARKER / 2}, ${coordPinLeft + WIDTH_MARKER / 2}`;
 
 function showPage() {
   map.classList.remove(`map--faded`);
@@ -106,21 +98,17 @@ function showPage() {
   mapPinMain.removeEventListener(`keydown`, onPinsEnterPress);
 }
 
-showAddress();
-
 function onPinsClick(evt) {
   if (evt.button === 0) {
-    evt.preventDefault();
     showPage();
-    showAddress();
+    inputAddress.value = `${coordPinTop + HEIGHT_MARKER}, ${coordPinLeft + WIDTH_MARKER / 2}`;
   }
 }
 
 function onPinsEnterPress(evt) {
   if (evt.key === `Enter`) {
-    evt.preventDefault();
     showPage();
-    showAddress();
+    inputAddress.value = `${coordPinTop + HEIGHT_MARKER}, ${coordPinLeft + WIDTH_MARKER / 2}`;
   }
 }
 
@@ -130,16 +118,17 @@ mapPinMain.addEventListener(`keydown`, onPinsEnterPress);
 
 // валидация формы
 
-mapFiltersForm.addEventListener(`change`, function () {
-  let selectRoomsValue = mapSelectRooms.value;
-  let selectGuestsValue = mapSelectGuests.value;
+adForm.addEventListener(`change`, function () {
+  let selectRoomsValue = adSelectRooms.value;
+  let selectGuestsValue = adSelectGuests.value;
 
   if (selectRoomsValue !== selectGuestsValue) {
-    mapSelectGuests.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
-    mapSelectRooms.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
+    adSelectGuests.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
+    adSelectRooms.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
   } else {
-    mapSelectGuests.setCustomValidity(``);
+    adSelectGuests.setCustomValidity(``);
+    adSelectRooms.setCustomValidity(``);
   }
 
-  mapSelectGuests.reportValidity();
+  adSelectGuests.reportValidity();
 });
