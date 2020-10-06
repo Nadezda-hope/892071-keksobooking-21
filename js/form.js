@@ -13,24 +13,17 @@
     window.pin.getMarkers(window.data.adverts);
     window.main.toggleDisabledInput(window.main.adFormChildren);
     window.main.toggleDisabledInput(window.main.mapFiltersFormChildren);
-    mapPinMain.removeEventListener(`mousedown`, onPinsClick);
-    mapPinMain.removeEventListener(`keydown`, onPinsEnterPress);
+    mapPinMain.removeEventListener(`mousedown`, onPinActiveHandler);
+    mapPinMain.removeEventListener(`keydown`, onPinActiveHandler);
   }
 
-  function onPinsClick(evt) {
-    if (evt.button === 0) {
+  function onPinActiveHandler(evt) {
+    if (evt.button === 0 || evt.key === `Enter`) {
       showPage();
       inputAddress.value = `${coordPinTop + window.pin.HEIGHT_MARKER}, ${coordPinLeft + window.pin.WIDTH_MARKER / 2}`;
     }
   }
 
-  function onPinsEnterPress(evt) {
-    if (evt.key === `Enter`) {
-      showPage();
-      inputAddress.value = `${coordPinTop + window.pin.HEIGHT_MARKER}, ${coordPinLeft + window.pin.WIDTH_MARKER / 2}`;
-    }
-  }
-
-  mapPinMain.addEventListener(`mousedown`, onPinsClick);
-  mapPinMain.addEventListener(`keydown`, onPinsEnterPress);
+  mapPinMain.addEventListener(`mousedown`, onPinActiveHandler);
+  mapPinMain.addEventListener(`keydown`, onPinActiveHandler);
 })();
