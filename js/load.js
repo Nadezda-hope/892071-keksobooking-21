@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  let URL_LOAD = `https://21.javascript.pages.academy/keksobooking/data`;
-  let StatusCode = {
+  const URL_LOAD = `https://21.javascript.pages.academy/keksobooking/data`;
+  const StatusCode = {
     OK: 200
   };
 
