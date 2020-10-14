@@ -1,11 +1,9 @@
 'use strict';
 
 (function () {
-  const main = document.querySelector(`main`);
   const mapPins = window.main.map.querySelector(`.map__pins`);
   const templatePin = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-  const templateError = document.querySelector(`#error`).content.querySelector(`.error`);
-  const templateSuccess = document.querySelector(`#success`).content.querySelector(`.success`);
+
   const WIDTH_MARKER = 65;
   const HEIGHT_MARKER = 87;
 
@@ -30,16 +28,17 @@
     }
   }
 
-  function successHandler() {
-    let successMessage = templateSuccess.cloneNode(true);
-    successMessage.classList.add(`success`);
-    main.appendChild(successMessage);
-  }
-
-  function errorHandler() {
-    let errorMessage = templateError.cloneNode(true);
-    errorMessage.classList.add(`error`);
-    main.appendChild(errorMessage);
+  function errorWarning(message) {
+    let node = document.createElement(`div`);
+    node.style = `z-index: 10; margin: 0 auto; text-align: center; background-color: rgba(255, 86, 53, 0.7)`;
+    node.style.position = `absolute`;
+    node.style.top = 0;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `18px`;
+    node.style.color = `white`;
+    node.textContent = message;
+    document.body.insertAdjacentElement(`afterbegin`, node);
   }
 
   function showPage(markers) {
@@ -54,7 +53,7 @@
 
   function onPinActiveHandler(evt) {
     if (evt.button === 0 || evt.key === `Enter`) {
-      window.load(showPage, errorHandler);
+      window.load(showPage, errorWarning);
       inputAddress.value = `${coordPinTop + HEIGHT_MARKER}, ${coordPinLeft + WIDTH_MARKER / 2}`;
     }
   }
@@ -64,8 +63,6 @@
 
   window.pin = {
     getMarkers,
-    successHandler,
-    errorHandler,
     WIDTH_MARKER,
     HEIGHT_MARKER
   };
