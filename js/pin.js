@@ -28,15 +28,9 @@
     }
   }
 
-  function errorWarning(message) {
+  function createErrorWarning(message) {
     let node = document.createElement(`div`);
-    node.style = `z-index: 10; margin: 0 auto; text-align: center; background-color: rgba(255, 86, 53, 0.7)`;
-    node.style.position = `absolute`;
-    node.style.top = 0;
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = `18px`;
-    node.style.color = `white`;
+    node.style = `z-index: 10; margin: 0 auto; text-align: center; background-color: rgba(255, 86, 53, 0.7); position: absolute; top: 0; left: 0; right: 0; font-size: 18px; color: white;`;
     node.textContent = message;
     document.body.insertAdjacentElement(`afterbegin`, node);
   }
@@ -53,7 +47,7 @@
 
   function onPinActiveHandler(evt) {
     if (evt.button === 0 || evt.key === `Enter`) {
-      window.load(showPage, errorWarning);
+      window.load(showPage, createErrorWarning);
       inputAddress.value = `${coordPinTop + HEIGHT_MARKER}, ${coordPinLeft + WIDTH_MARKER / 2}`;
     }
   }
