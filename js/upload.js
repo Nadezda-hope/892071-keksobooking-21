@@ -8,10 +8,6 @@
   const statusCode = {
     OK: 200
   };
-  // console.log(templateError);
-  // console.log(templateSuccess);
-  // console.log(errorButton);
-
 
   function upload(data, onSuccess) {
     let xhr = new XMLHttpRequest();
