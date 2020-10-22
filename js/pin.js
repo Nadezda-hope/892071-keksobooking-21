@@ -36,6 +36,7 @@
     }
   }
 
+
   function createCard(markers) {
     let advertCard = templateCard.cloneNode(true);
     advertCard.classList.add(`map__card`);
@@ -69,10 +70,6 @@
     } if (markers.offer.features.length === 0) {
       advertCard.querySelector(`.popup__features`).classList.add(`hidden`);
     }
-
-    templatePin.removeEventListener(`click`, function () {
-      createCard(markers);
-    });
   }
 
   function showPage(markers) {
