@@ -41,6 +41,17 @@
     }
   }
 
+  function getSrcPhotos(photos, element) {
+    let photoItem = element.querySelector(`.popup__photo`);
+    let photosContainer = element.querySelector(`.popup__photos`);
+    photoItem.src = photos[0];
+    for (let i = 1; i < photos.length; i++) {
+      let photo = photoItem.cloneNode(true);
+      photo.src = photos[i];
+      photosContainer.appendChild(photo);
+    }
+  }
+
   window.main = {
     map,
     adForm,
@@ -49,6 +60,7 @@
     getRandomValue,
     toggleDisabledInput,
     getTypePlace,
+    getSrcPhotos,
     createErrorWarning
   };
 })();

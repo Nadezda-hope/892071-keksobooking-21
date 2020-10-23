@@ -16,7 +16,6 @@
   const templateCard = document.querySelector(`#card`).content.querySelector(`.map__card`);
   const mapFiltersContainer = document.querySelector(`.map__filters-container`);
 
-
   function getMarkers(markers) {
     for (let i = 0; i < markers.length; i++) {
       let currentMarker = markers[i];
@@ -27,31 +26,17 @@
       markerElement.style.top = `${currentMarker.location.y - HEIGHT_MARKER}px`;
       markerElement.querySelector(`img`).src = currentMarker.author.avatar;
       markerElement.querySelector(`img`).alt = currentMarker.offer.title;
-
       mapPins.appendChild(markerElement);
 
-      markerElement.addEventListener(`click`, function () {
-        createCard(currentMarker);
-      });
+      createCard(markers[1]);
     }
   }
 
-
   function createCard(markers) {
-    let advertCard = templateCard.cloneNode(true);
+    const advertCard = templateCard.cloneNode(true);
     advertCard.classList.add(`map__card`);
 
-    function getSrcPhotos(photos) {
-      let photoItem = advertCard.querySelector(`.popup__photo`);
-      let photosContainer = advertCard.querySelector(`.popup__photos`);
-      photoItem.src = photos[0];
-      for (let i = 1; i < photos.length; i++) {
-        let photo = photoItem.cloneNode(true);
-        photo.src = photos[i];
-        photosContainer.appendChild(photo);
-      }
-    }
-    getSrcPhotos(markers.offer.photos);
+    window.main.getSrcPhotos(markers.offer.photos, advertCard);
     advertCard.querySelector(`.popup__title`).textContent = markers.offer.title;
     advertCard.querySelector(`.popup__text--address`).textContent = markers.offer.address;
     advertCard.querySelector(`.popup__text--price`).textContent = `${markers.offer.price} ₽/ночь`;
@@ -65,9 +50,13 @@
 
     if (markers.offer.photos.length === 0) {
       advertCard.querySelector(`.popup__photos`).classList.add(`hidden`);
-    } if (markers.offer.rooms === 0 || markers.offer.guests === 0) {
+    }
+
+    if (markers.offer.rooms === 0 || markers.offer.guests === 0) {
       advertCard.querySelector(`.popup__text--capacity`).classList.add(`hidden`);
-    } if (markers.offer.features.length === 0) {
+    }
+
+    if (markers.offer.features.length === 0) {
       advertCard.querySelector(`.popup__features`).classList.add(`hidden`);
     }
   }
