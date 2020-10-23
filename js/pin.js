@@ -28,7 +28,7 @@
       markerElement.querySelector(`img`).alt = currentMarker.offer.title;
       mapPins.appendChild(markerElement);
 
-      createCard(markers[1]);
+      createCard(markers[0]);
     }
   }
 
