@@ -10,7 +10,7 @@
   };
 
   function upload(data, onSuccess) {
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
     xhr.addEventListener(`load`, function () {
@@ -31,29 +31,29 @@
   });
 
   function successHandler() {
-    let successMessage = templateSuccess.cloneNode(true);
+    const successMessage = templateSuccess.cloneNode(true);
     successMessage.classList.add(`success`);
     main.appendChild(successMessage);
     window.addEventListener(`keydown`, onPopupEscPress);
   }
 
   function errorHandler() {
-    let errorMessage = templateError.cloneNode(true);
+    const errorMessage = templateError.cloneNode(true);
     errorMessage.classList.add(`error`);
     main.appendChild(errorMessage);
     window.addEventListener(`keydown`, onPopupErrorHandler);
-    let errorButton = errorMessage.querySelector(`.error__button`);
+    const errorButton = errorMessage.querySelector(`.error__button`);
     errorButton.addEventListener(`mousedown`, onPopupErrorHandler);
   }
 
   function closeErrorPopup() {
-    let errorContainer = main.querySelector(`.error`);
+    const errorContainer = main.querySelector(`.error`);
     errorContainer.remove();
     window.removeEventListener(`keydown`, onPopupErrorHandler);
   }
 
   function closeSuccessPopup() {
-    let successContainer = main.querySelector(`.success`);
+    const successContainer = main.querySelector(`.success`);
     successContainer.remove();
     window.removeEventListener(`keydown`, onPopupEscPress);
   }

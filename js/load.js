@@ -7,7 +7,7 @@
   };
 
   window.load = function (onSuccess, onError) {
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
     xhr.addEventListener(`load`, function () {

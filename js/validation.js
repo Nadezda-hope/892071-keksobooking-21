@@ -5,8 +5,8 @@
   const adSelectGuests = window.main.adForm.querySelector(`#capacity`);
 
   window.main.adForm.addEventListener(`change`, function () {
-    let selectRoomsValue = adSelectRooms.value;
-    let selectGuestsValue = adSelectGuests.value;
+    const selectRoomsValue = adSelectRooms.value;
+    const selectGuestsValue = adSelectGuests.value;
 
     if (selectRoomsValue !== selectGuestsValue) {
       adSelectGuests.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
