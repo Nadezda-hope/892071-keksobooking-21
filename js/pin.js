@@ -18,8 +18,8 @@
 
   function getMarkers(markers) {
     for (let i = 0; i < markers.length; i++) {
-      let currentMarker = markers[i];
-      let markerElement = templatePin.cloneNode(true);
+      const currentMarker = markers[i];
+      const markerElement = templatePin.cloneNode(true);
       markerElement.classList.add(`map__pin`);
 
       markerElement.style.left = `${currentMarker.location.x - (WIDTH_MARKER / 2)}px`;
@@ -43,7 +43,7 @@
     advertCard.querySelector(`.popup__type`).textContent = window.main.getTypePlace(markers.offer.type);
     advertCard.querySelector(`.popup__text--capacity`).textContent = `${markers.offer.rooms} комнаты для ${markers.offer.guests} гостей`;
     advertCard.querySelector(`.popup__text--time`).textContent = `Заезд после ${markers.offer.checkin}, выезд до ${markers.offer.checkout}`;
-    advertCard.querySelector(`.popup__features`).textContent = markers.offer.features;
+    advertCard.querySelector(`.popup__feature`).textContent = markers.offer.features;
     advertCard.querySelector(`.popup__description`).textContent = markers.offer.description;
     advertCard.querySelector(`.popup__avatar`).src = markers.author.avatar;
     window.main.map.insertBefore(advertCard, mapFiltersContainer);
