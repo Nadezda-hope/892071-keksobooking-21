@@ -5,6 +5,7 @@
   const adForm = document.querySelector(`.ad-form`);
   const adFormChildren = document.querySelector(`.ad-form`).children;
   const mapFiltersFormChildren = document.querySelector(`.map__filters`).children;
+  const mapPins = map.querySelector(`.map__pins`);
 
   function getRandomValue(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -57,6 +58,7 @@
     adForm,
     adFormChildren,
     mapFiltersFormChildren,
+    mapPins,
     getRandomValue,
     toggleDisabledInput,
     getTypePlace,
