@@ -9,10 +9,10 @@
   const adInputPrice = window.main.adForm.querySelector(`#price`);
 
   function changeCapacity() {
-    const selectRoomsValue = adSelectRooms.value;
-    const selectGuestsValue = adSelectGuests.value;
+    let selectRoomsValue = adSelectRooms.value;
+    let selectGuestsValue = adSelectGuests.value;
 
-    if (selectRoomsValue !== selectGuestsValue) {
+    if (selectRoomsValue !== `100` && selectGuestsValue !== `0` && selectRoomsValue !== selectGuestsValue) {
       adSelectGuests.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
       adSelectRooms.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
     } else {
@@ -28,18 +28,25 @@
   }
 
   function changeTypeOfPlace() {
-    if (adSelectType.value === `bungalow`) {
-      adInputPrice.placeholder = 0;
-      adInputPrice.min = 0;
-    } else if (adSelectType.value === `flat`) {
-      adInputPrice.placeholder = 1000;
-      adInputPrice.min = 1000;
-    } else if (adSelectType.value === `house`) {
-      adInputPrice.placeholder = 5000;
-      adInputPrice.min = 5000;
-    } else if (adSelectType.value === `palace`) {
-      adInputPrice.placeholder = 10000;
-      adInputPrice.min = 10000;
+    switch (adSelectType.value) {
+      case `bungalow`:
+        adInputPrice.placeholder = 0;
+        adInputPrice.min = 0;
+        break;
+      case `flat`:
+        adInputPrice.placeholder = 1000;
+        adInputPrice.min = 1000;
+        break;
+      case `house`:
+        adInputPrice.placeholder = 5000;
+        adInputPrice.min = 5000;
+        break;
+      case `palace`:
+        adInputPrice.placeholder = 10000;
+        adInputPrice.min = 10000;
+        break;
+      default: adInputPrice.placeholder = 5000;
+        adInputPrice.min = 5000;
     }
   }
 

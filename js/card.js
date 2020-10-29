@@ -40,12 +40,19 @@
       advertCard.querySelector(`.popup__features`).classList.add(`hidden`);
     }
 
+    window.main.map.insertBefore(advertCard, mapFiltersContainer);
+
     function onCardCloseHandler(evt) {
       if (evt.key === `Escape` || evt.button === 0) {
-        advertCard.remove();
+        closeCard();
       }
     }
-    window.main.map.insertBefore(advertCard, mapFiltersContainer);
+
+    function closeCard() {
+      window.removeEventListener(`keydown`, onCardCloseHandler);
+      cardClose.removeEventListener(`click`, onCardCloseHandler);
+      advertCard.remove();
+    }
 
     window.addEventListener(`keydown`, onCardCloseHandler);
     cardClose.addEventListener(`click`, onCardCloseHandler);
