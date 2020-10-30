@@ -11,15 +11,15 @@
   function changeCapacity() {
     let selectRoomsValue = adSelectRooms.value;
     let selectGuestsValue = adSelectGuests.value;
+    let isValid = selectRoomsValue === selectGuestsValue || selectRoomsValue === `100` && selectGuestsValue === `0`;
 
-    if (selectRoomsValue !== `100` && selectGuestsValue !== `0` && selectRoomsValue !== selectGuestsValue) {
-      adSelectGuests.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
-      adSelectRooms.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
-    } else {
+    if (isValid) {
       adSelectGuests.setCustomValidity(``);
       adSelectRooms.setCustomValidity(``);
+    } else {
+      adSelectGuests.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
+      adSelectRooms.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
     }
-
     adSelectGuests.reportValidity();
   }
 
