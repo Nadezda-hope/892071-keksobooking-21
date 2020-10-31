@@ -11,6 +11,8 @@
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
+      const MIN_Y = 130;
+      const MAX_Y = 630;
 
       let shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -22,8 +24,10 @@
         y: moveEvt.clientY
       };
 
-      window.pin.mapPinMain.style.top = (window.pin.mapPinMain.offsetTop - shift.y) + `px`;
-      window.pin.mapPinMain.style.left = (window.pin.mapPinMain.offsetLeft - shift.x) + `px`;
+      if (window.pin.mapPinMain.offsetTop - shift.y >= MIN_Y && window.pin.mapPinMain.offsetTop - shift.y <= MAX_Y) {
+        window.pin.mapPinMain.style.top = (window.pin.mapPinMain.offsetTop - shift.y) + `px`;
+        window.pin.mapPinMain.style.left = (window.pin.mapPinMain.offsetLeft - shift.x) + `px`;
+      }
     }
 
     function onMouseUp(upEvt) {
