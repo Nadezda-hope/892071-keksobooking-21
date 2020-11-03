@@ -11,8 +11,39 @@
   const coordPinLeft = mapPinMain.offsetLeft;
   inputAddress.value = `${coordPinTop + WIDTH_MARKER / 2}, ${coordPinLeft + WIDTH_MARKER / 2}`;
 
+  let mapMarkers = [];
+  const MAX_SIMILAR_MARKERS = 5;
+  let typeOfHouse = `flat`;
+  const selectMapType = document.querySelector(`#housing-type`);
+
+  function updateMarkers() {
+    const prevElement = document.querySelectorAll(`.map__pin`);
+    for (let i = 1; i < prevElement.length; i++) {
+      prevElement[i].remove();
+    }
+
+    const sameTypeOfHousing = mapMarkers.filter(function (marker) {
+      return marker.offer.type === typeOfHouse;
+    });
+
+    const filterOfType = sameTypeOfHousing.concat(mapMarkers);
+
+    const uniqueMarkers = filterOfType.filter(function (marker, index) {
+      return filterOfType.indexOf(marker) === index;
+    });
+    getMarkers(uniqueMarkers);
+  }
+
+  selectMapType.addEventListener(`change`, function () {
+    let newTypeOfHousing = selectMapType.value;
+    typeOfHouse = newTypeOfHousing;
+    updateMarkers();
+    window.card.closeAllPopups();
+  });
+
   function getMarkers(markers) {
-    for (let i = 0; i < markers.length; i++) {
+    let amount = markers.length > MAX_SIMILAR_MARKERS ? MAX_SIMILAR_MARKERS : markers.length;
+    for (let i = 0; i < amount; i++) {
       const currentMarker = markers[i];
       const markerElement = templatePin.cloneNode(true);
       markerElement.classList.add(`map__pin`);
@@ -29,10 +60,11 @@
     }
   }
 
-  function showPage(markers) {
+  function showPage(data) {
+    mapMarkers = data;
     window.main.map.classList.remove(`map--faded`);
     window.main.adForm.classList.remove(`ad-form--disabled`);
-    getMarkers(markers);
+    getMarkers(mapMarkers);
     window.main.toggleDisabledInput(window.main.adFormChildren);
     window.main.toggleDisabledInput(window.main.mapFiltersFormChildren);
     mapPinMain.removeEventListener(`mousedown`, onPinActiveHandler);

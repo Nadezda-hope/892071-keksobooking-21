@@ -11,7 +11,7 @@
   function changeCapacity() {
     let selectRoomsValue = adSelectRooms.value;
     let selectGuestsValue = adSelectGuests.value;
-    let isValid = selectRoomsValue === selectGuestsValue || selectRoomsValue === `100` && selectGuestsValue === `0`;
+    let isValid = selectRoomsValue === selectGuestsValue || selectRoomsValue === `100` && selectGuestsValue === `0` || selectRoomsValue === `2` && selectGuestsValue === `1` || selectRoomsValue === `3` && selectGuestsValue === `2` || selectRoomsValue === `3` && selectGuestsValue === `1`;
 
     if (isValid) {
       adSelectGuests.setCustomValidity(``);
