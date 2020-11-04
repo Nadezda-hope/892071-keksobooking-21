@@ -9,9 +9,14 @@
   const adInputPrice = window.main.adForm.querySelector(`#price`);
 
   function changeCapacity() {
-    let selectRoomsValue = adSelectRooms.value;
-    let selectGuestsValue = adSelectGuests.value;
-    let isValid = selectRoomsValue === selectGuestsValue || selectRoomsValue === `100` && selectGuestsValue === `0`;
+    const selectRoomsValue = adSelectRooms.value;
+    const selectGuestsValue = adSelectGuests.value;
+
+    const isValidTwoRooms = selectRoomsValue === `2` && selectGuestsValue === `1`;
+    const isValidThreeRooms = selectRoomsValue === `3` && (selectGuestsValue === `2` || selectGuestsValue === `1`);
+    const isValidHundredRooms = selectRoomsValue === `100` && selectGuestsValue === `0`;
+
+    const isValid = selectRoomsValue === selectGuestsValue || isValidTwoRooms || isValidThreeRooms || isValidHundredRooms;
 
     if (isValid) {
       adSelectGuests.setCustomValidity(``);
