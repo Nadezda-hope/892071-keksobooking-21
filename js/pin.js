@@ -13,31 +13,24 @@
 
   let mapMarkers = [];
   const MAX_SIMILAR_MARKERS = 5;
-  let typeOfHouse = `flat`;
-  const selectMapType = document.querySelector(`#housing-type`);
+  const mapSelectType = document.querySelector(`#housing-type`);
 
-  function updateMarkers() {
-    const prevElement = document.querySelectorAll(`.map__pin`);
-    for (let i = 1; i < prevElement.length; i++) {
-      prevElement[i].remove();
+  function updateMarkers(typeOfHouse) {
+    const prevPins = document.querySelectorAll(`.map__pin`);
+    for (let i = 1; i < prevPins.length; i++) {
+      prevPins[i].remove();
     }
 
-    const sameTypeOfHousing = mapMarkers.filter(function (marker) {
+    const sameTypeOfHouse = mapMarkers.filter(function (marker) {
       return marker.offer.type === typeOfHouse;
     });
 
-    const filterOfType = sameTypeOfHousing.concat(mapMarkers);
-
-    const uniqueMarkers = filterOfType.filter(function (marker, index) {
-      return filterOfType.indexOf(marker) === index;
-    });
-    getMarkers(uniqueMarkers);
+    getMarkers(sameTypeOfHouse);
   }
 
-  selectMapType.addEventListener(`change`, function () {
-    let newTypeOfHousing = selectMapType.value;
-    typeOfHouse = newTypeOfHousing;
-    updateMarkers();
+  mapSelectType.addEventListener(`change`, function (evt) {
+    const typeOfHouse = evt.target.value;
+    updateMarkers(typeOfHouse);
     window.card.closeAllPopups();
   });
 
