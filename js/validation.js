@@ -12,9 +12,12 @@
     const selectRoomsValue = adSelectRooms.value;
     const selectGuestsValue = adSelectGuests.value;
 
-    const validTwoRooms = selectRoomsValue === `2` && selectGuestsValue === `1`;
-    const validThreeRooms = selectRoomsValue === `3` && selectGuestsValue === `2` || selectRoomsValue === `3` && selectGuestsValue === `1`;
-    const isValid = selectRoomsValue === selectGuestsValue || selectRoomsValue === `100` && selectGuestsValue === `0` || validTwoRooms || validThreeRooms;
+    const isValidTwoRooms = selectRoomsValue === `2` && selectGuestsValue === `1`;
+    const isValidThreeRooms = selectRoomsValue === `3` && (selectGuestsValue === `2` || selectGuestsValue === `1`);
+    const isValidHundredRooms = selectRoomsValue === `100` && selectGuestsValue === `0`;
+
+    const isValid = selectRoomsValue === selectGuestsValue || isValidTwoRooms || isValidThreeRooms || isValidHundredRooms;
+    console.log(typeof selectGuestsValue)
 
     if (isValid) {
       adSelectGuests.setCustomValidity(``);
