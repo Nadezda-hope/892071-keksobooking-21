@@ -17,7 +17,6 @@
     const isValidHundredRooms = selectRoomsValue === `100` && selectGuestsValue === `0`;
 
     const isValid = selectRoomsValue === selectGuestsValue || isValidTwoRooms || isValidThreeRooms || isValidHundredRooms;
-    console.log(typeof selectGuestsValue)
 
     if (isValid) {
       adSelectGuests.setCustomValidity(``);
