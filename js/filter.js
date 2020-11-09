@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
-  let typeOfHouse;
-  let priceOfHouse;
-  let roomsOfHouse;
-  let guestsOfHouse;
-  let featuresOfHouse;
+  let typeOfHouse = `any`;
+  let priceOfHouse = `any`;
+  let roomsOfHouse = `any`;
+  let guestsOfHouse = `any`;
+  const features = {wifi: false, dishwasher: false, parking: false, washer: false, elevator: false, conditioner: false};
 
   const mapSelectType = document.querySelector(`#housing-type`);
   const mapSelectPrice = document.querySelector(`#housing-price`);
@@ -14,8 +14,10 @@
   const mapFieldsetFeatures = document.querySelector(`#housing-features`);
 
   function updateMarkers() {
-    window.main.delPrevElements();
     let filteredMarkers = [...window.main.mapMarkers];
+    const selectedFeauters = Object.keys(features).filter(function (feature) {
+      return features[feature];
+    });
 
     if (typeOfHouse !== `any`) {
       filteredMarkers = filteredMarkers.filter(function (marker) {
@@ -56,43 +58,70 @@
     }
 
     filteredMarkers = filteredMarkers.filter(function (marker) {
-      marker.offer.features.some(function (feature) {
-        return feature === featuresOfHouse;
+      return selectedFeauters.every(function (feature) {
+        return marker.offer.features.includes(feature);
       });
     });
 
+    return filteredMarkers;
+  }
+
+  function renderFilteredMarkers() {
+    window.main.delPrevElements();
+    let filteredMarkers = updateMarkers();
     window.pin.getMarkers(filteredMarkers);
+    window.card.closeAllPopups();
   }
 
   mapSelectType.addEventListener(`change`, window.debounce.setDebounce(function (evt) {
     typeOfHouse = evt.target.value;
-    updateMarkers();
-    window.card.closeAllPopups();
+    renderFilteredMarkers();
   }));
 
   mapSelectPrice.addEventListener(`change`, window.debounce.setDebounce(function (evt) {
     priceOfHouse = evt.target.value;
-    updateMarkers();
-    window.card.closeAllPopups();
+    renderFilteredMarkers();
   }));
 
   mapSelectRooms.addEventListener(`change`, window.debounce.setDebounce(function (evt) {
-    roomsOfHouse = +evt.target.value;
-    updateMarkers();
-    window.card.closeAllPopups();
+    roomsOfHouse = evt.target.value === `any` ? evt.target.value : Number(evt.target.value);
+    renderFilteredMarkers();
   }));
 
   mapSelectGuests.addEventListener(`change`, window.debounce.setDebounce(function (evt) {
-    guestsOfHouse = +evt.target.value;
-    updateMarkers();
-    window.card.closeAllPopups();
+    guestsOfHouse = evt.target.value === `any` ? evt.target.value : Number(evt.target.value);
+    renderFilteredMarkers();
   }));
 
-  mapFieldsetFeatures.addEventListener(`change`, window.debounce.setDebounce(function (evt) {
-    featuresOfHouse = evt.target.value;
-    updateMarkers();
-    window.card.closeAllPopups();
-  }));
+  mapFieldsetFeatures.querySelector(`input[value="wifi"]`).addEventListener(`change`, function (evt) {
+    features.wifi = evt.target.checked;
+    renderFilteredMarkers();
+  });
+
+  mapFieldsetFeatures.querySelector(`input[value="dishwasher"]`).addEventListener(`change`, function (evt) {
+    features.dishwasher = evt.target.checked;
+    renderFilteredMarkers();
+  });
+
+  mapFieldsetFeatures.querySelector(`input[value="parking"]`).addEventListener(`change`, function (evt) {
+    features.parking = evt.target.checked;
+    renderFilteredMarkers();
+  });
+
+  mapFieldsetFeatures.querySelector(`input[value="washer"]`).addEventListener(`change`, function (evt) {
+    features.washer = evt.target.checked;
+    renderFilteredMarkers();
+  });
+
+  mapFieldsetFeatures.querySelector(`input[value="elevator"]`).addEventListener(`change`, function (evt) {
+    features.elevator = evt.target.checked;
+    renderFilteredMarkers();
+  });
+
+  mapFieldsetFeatures.querySelector(`input[value="conditioner"]`).addEventListener(`change`, function (evt) {
+    features.conditioner = evt.target.checked;
+    renderFilteredMarkers();
+  });
 
   window.filter = {
     updateMarkers

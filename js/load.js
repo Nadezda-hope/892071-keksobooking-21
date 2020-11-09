@@ -2,7 +2,7 @@
 
 (function () {
   const URL_LOAD = `https://21.javascript.pages.academy/keksobooking/data`;
-  const statusCode = {
+  const StatusCode = {
     OK: 200
   };
 
@@ -11,7 +11,7 @@
     xhr.responseType = `json`;
 
     xhr.addEventListener(`load`, function () {
-      if (xhr.status === statusCode.OK) {
+      if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);

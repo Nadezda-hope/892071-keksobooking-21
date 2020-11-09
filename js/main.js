@@ -20,8 +20,8 @@
     }
   }
 
-  toggleDisabledInput(adFormChildren);
-  toggleDisabledInput(mapFiltersFormChildren);
+  toggleDisabledInput(adForm);
+  toggleDisabledInput(mapForm);
 
   function createErrorWarning(message) {
     const node = document.createElement(`div`);

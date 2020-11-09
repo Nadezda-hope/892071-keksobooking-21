@@ -46,12 +46,16 @@
     window.main.map.insertBefore(advertCard, mapFiltersContainer);
 
     function onCardCloseHandler(evt) {
-      if (evt.key === `Escape` || evt.button === 0) {
+      if (evt.key === `Escape` || evt.key === `Enter` || evt.button === 0) {
         closeCard();
       }
     }
 
     function closeCard() {
+      const shownPins = window.main.map.querySelectorAll(`.map__pin`);
+      for (let i = 0; i < shownPins.length; i++) {
+        shownPins[i].classList.remove(`map__pin--active`);
+      }
       window.removeEventListener(`keydown`, onCardCloseHandler);
       cardClose.removeEventListener(`click`, onCardCloseHandler);
       advertCard.remove();
