@@ -4,6 +4,7 @@
   const main = document.querySelector(`main`);
   const templateError = document.querySelector(`#error`).content.querySelector(`.error`);
   const templateSuccess = document.querySelector(`#success`).content.querySelector(`.success`);
+  const buttonReset = document.querySelector(`.ad-form__reset`);
   const URL = `https://21.javascript.pages.academy/keksobooking`;
   const statusCode = {
     OK: 200
@@ -35,6 +36,8 @@
     successMessage.classList.add(`success`);
     main.appendChild(successMessage);
     window.addEventListener(`keydown`, onPopupEscPress);
+    successMessage.addEventListener(`click`, onPopupEscPress);
+    getDisabledPage();
   }
 
   function errorHandler() {
@@ -42,6 +45,7 @@
     errorMessage.classList.add(`error`);
     main.appendChild(errorMessage);
     window.addEventListener(`keydown`, onPopupErrorHandler);
+    errorMessage.addEventListener(`click`, onPopupErrorHandler);
     const errorButton = errorMessage.querySelector(`.error__button`);
     errorButton.addEventListener(`mousedown`, onPopupErrorHandler);
   }
@@ -59,7 +63,7 @@
   }
 
   function onPopupEscPress(evt) {
-    if (evt.key === `Escape`) {
+    if (evt.key === `Escape` || evt.button === 0) {
       closeSuccessPopup();
     }
   }
@@ -70,4 +74,22 @@
       closeErrorPopup();
     }
   }
+
+  function getDisabledPage() {
+    window.pin.mapPinMain.style = `top: 375px; left: 570px`;
+    window.main.map.classList.add(`map--faded`);
+    window.main.adForm.classList.add(`ad-form--disabled`);
+    window.main.delPrevElements();
+    window.card.closeAllPopups();
+    window.main.adForm.reset();
+    window.main.mapForm.reset();
+    window.main.toggleDisabledInput(window.main.adForm);
+    window.main.toggleDisabledInput(window.main.mapForm);
+    window.pin.mapPinMain.addEventListener(`mousedown`, window.pin.onPinActiveHandler);
+    window.pin.mapPinMain.addEventListener(`keydown`, window.pin.onPinActiveHandler);
+  }
+
+  buttonReset.addEventListener(`click`, function () {
+    getDisabledPage();
+  });
 })();

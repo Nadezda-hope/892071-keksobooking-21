@@ -4,8 +4,11 @@
   const map = document.querySelector(`.map`);
   const adForm = document.querySelector(`.ad-form`);
   const adFormChildren = document.querySelector(`.ad-form`).children;
-  const mapFiltersFormChildren = document.querySelector(`.map__filters`).children;
+  const mapForm = document.querySelector(`.map__filters`);
+  const mapFiltersFormChildren = mapForm.children;
   const mapPins = map.querySelector(`.map__pins`);
+
+  let mapMarkers = [];
 
   function getRandomValue(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -53,16 +56,26 @@
     }
   }
 
+  function delPrevElements() {
+    const prevPins = document.querySelectorAll(`.map__pin`);
+    for (let i = 1; i < prevPins.length; i++) {
+      prevPins[i].remove();
+    }
+  }
+
   window.main = {
     map,
+    mapForm,
     adForm,
     adFormChildren,
     mapFiltersFormChildren,
     mapPins,
+    mapMarkers,
     getRandomValue,
     toggleDisabledInput,
     getTypePlace,
     getSrcPhotos,
-    createErrorWarning
+    createErrorWarning,
+    delPrevElements
   };
 })();

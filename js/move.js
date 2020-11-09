@@ -28,6 +28,8 @@
         window.pin.mapPinMain.style.top = (window.pin.mapPinMain.offsetTop - shift.y) + `px`;
         window.pin.mapPinMain.style.left = (window.pin.mapPinMain.offsetLeft - shift.x) + `px`;
       }
+
+      window.pin.inputAddress.value = `${startCoords.x + window.pin.WIDTH_MAIN_MARKER / 2}, ${startCoords.y + window.pin.HEIGHT_MAIN_MARKER / 2}`;
     }
 
     function onMouseUp(upEvt) {
