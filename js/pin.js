@@ -2,37 +2,17 @@
 
 (function () {
   const templatePin = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-  const WIDTH_MARKER = 65;
-  const HEIGHT_MARKER = 87;
+  const WIDTH_MAIN_MARKER = 200;
+  const HEIGHT_MAIN_MARKER = 200;
+  const WIDTH_MARKER = 50;
+  const HEIGHT_MARKER = 70;
 
   const inputAddress = window.main.adForm.querySelector(`input[name="address"]`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const coordPinTop = mapPinMain.offsetTop;
   const coordPinLeft = mapPinMain.offsetLeft;
-  inputAddress.value = `${coordPinTop + WIDTH_MARKER / 2}, ${coordPinLeft + WIDTH_MARKER / 2}`;
-
-  let mapMarkers = [];
   const MAX_SIMILAR_MARKERS = 5;
-  const mapSelectType = document.querySelector(`#housing-type`);
-
-  function updateMarkers(typeOfHouse) {
-    const prevPins = document.querySelectorAll(`.map__pin`);
-    for (let i = 1; i < prevPins.length; i++) {
-      prevPins[i].remove();
-    }
-
-    const sameTypeOfHouse = mapMarkers.filter(function (marker) {
-      return marker.offer.type === typeOfHouse;
-    });
-
-    getMarkers(sameTypeOfHouse);
-  }
-
-  mapSelectType.addEventListener(`change`, function (evt) {
-    const typeOfHouse = evt.target.value;
-    updateMarkers(typeOfHouse);
-    window.card.closeAllPopups();
-  });
+  inputAddress.value = `${coordPinTop + HEIGHT_MAIN_MARKER / 2}, ${coordPinLeft + WIDTH_MAIN_MARKER / 2}`;
 
   function getMarkers(markers) {
     let amount = markers.length > MAX_SIMILAR_MARKERS ? MAX_SIMILAR_MARKERS : markers.length;
@@ -47,19 +27,28 @@
       markerElement.querySelector(`img`).alt = currentMarker.offer.title;
       window.main.mapPins.appendChild(markerElement);
 
-      markerElement.addEventListener(`click`, function () {
+      if (currentMarker.offer === 0) {
+        markerElement.classList.add(`hidden`);
+      }
+
+      markerElement.addEventListener(`click`, function (evt) {
+        const shownPins = window.main.map.querySelectorAll(`.map__pin`);
+        for (let j = 0; j < shownPins.length; j++) {
+          shownPins[j].classList.remove(`map__pin--active`);
+        }
+        evt.target.parentElement.classList.add(`map__pin--active`);
         window.card.createCard(currentMarker);
       });
     }
   }
 
   function showPage(data) {
-    mapMarkers = data;
+    window.main.mapMarkers = data;
     window.main.map.classList.remove(`map--faded`);
     window.main.adForm.classList.remove(`ad-form--disabled`);
-    getMarkers(mapMarkers);
-    window.main.toggleDisabledInput(window.main.adFormChildren);
-    window.main.toggleDisabledInput(window.main.mapFiltersFormChildren);
+    getMarkers(window.main.mapMarkers);
+    window.main.toggleDisabledInput(window.main.adForm);
+    window.main.toggleDisabledInput(window.main.mapForm);
     mapPinMain.removeEventListener(`mousedown`, onPinActiveHandler);
     mapPinMain.removeEventListener(`keydown`, onPinActiveHandler);
   }
@@ -75,10 +64,14 @@
   mapPinMain.addEventListener(`keydown`, onPinActiveHandler);
 
   window.pin = {
+    inputAddress,
     getMarkers,
+    onPinActiveHandler,
+    WIDTH_MAIN_MARKER,
+    HEIGHT_MAIN_MARKER,
     WIDTH_MARKER,
     HEIGHT_MARKER,
     templatePin,
-    mapPinMain
+    mapPinMain,
   };
 })();
