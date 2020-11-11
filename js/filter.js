@@ -5,7 +5,14 @@
   let priceOfHouse = `any`;
   let roomsOfHouse = `any`;
   let guestsOfHouse = `any`;
-  const features = {wifi: false, dishwasher: false, parking: false, washer: false, elevator: false, conditioner: false};
+  const features = {
+    wifi: false,
+    dishwasher: false,
+    parking: false,
+    washer: false,
+    elevator: false,
+    conditioner: false
+  };
 
   const mapSelectType = document.querySelector(`#housing-type`);
   const mapSelectPrice = document.querySelector(`#housing-price`);
@@ -67,8 +74,8 @@
   }
 
   function renderFilteredMarkers() {
-    window.main.delPrevElements();
     let filteredMarkers = updateMarkers();
+    window.main.delPrevElements();
     window.pin.getMarkers(filteredMarkers);
     window.card.closeAllPopups();
   }
@@ -93,35 +100,14 @@
     renderFilteredMarkers();
   }));
 
-  mapFieldsetFeatures.querySelector(`input[value="wifi"]`).addEventListener(`change`, function (evt) {
-    features.wifi = evt.target.checked;
+  mapFieldsetFeatures.addEventListener(`change`, window.debounce.setDebounce(function (evt) {
+    Object.keys(features).forEach(function (feature) {
+      if (feature === evt.target.value) {
+        features[feature] = evt.target.checked;
+      }
+    });
     renderFilteredMarkers();
-  });
-
-  mapFieldsetFeatures.querySelector(`input[value="dishwasher"]`).addEventListener(`change`, function (evt) {
-    features.dishwasher = evt.target.checked;
-    renderFilteredMarkers();
-  });
-
-  mapFieldsetFeatures.querySelector(`input[value="parking"]`).addEventListener(`change`, function (evt) {
-    features.parking = evt.target.checked;
-    renderFilteredMarkers();
-  });
-
-  mapFieldsetFeatures.querySelector(`input[value="washer"]`).addEventListener(`change`, function (evt) {
-    features.washer = evt.target.checked;
-    renderFilteredMarkers();
-  });
-
-  mapFieldsetFeatures.querySelector(`input[value="elevator"]`).addEventListener(`change`, function (evt) {
-    features.elevator = evt.target.checked;
-    renderFilteredMarkers();
-  });
-
-  mapFieldsetFeatures.querySelector(`input[value="conditioner"]`).addEventListener(`change`, function (evt) {
-    features.conditioner = evt.target.checked;
-    renderFilteredMarkers();
-  });
+  }));
 
   window.filter = {
     updateMarkers

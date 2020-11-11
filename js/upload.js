@@ -35,44 +35,57 @@
     const successMessage = templateSuccess.cloneNode(true);
     successMessage.classList.add(`success`);
     main.appendChild(successMessage);
-    window.addEventListener(`keydown`, onPopupEscPress);
-    successMessage.addEventListener(`click`, onPopupEscPress);
+    window.addEventListener(`keydown`, onPopupSuccessEscPress);
+    successMessage.addEventListener(`click`, onPopupSuccessClick);
     getDisabledPage();
   }
 
   function errorHandler() {
     const errorMessage = templateError.cloneNode(true);
+    const errorButton = errorMessage.querySelector(`.error__button`);
     errorMessage.classList.add(`error`);
     main.appendChild(errorMessage);
-    window.addEventListener(`keydown`, onPopupErrorHandler);
-    errorMessage.addEventListener(`click`, onPopupErrorHandler);
-    const errorButton = errorMessage.querySelector(`.error__button`);
-    errorButton.addEventListener(`mousedown`, onPopupErrorHandler);
+    window.addEventListener(`keydown`, onPopupErrorKeydown);
+    errorMessage.addEventListener(`click`, onPopupErrorClick);
+    errorButton.addEventListener(`click`, onPopupErrorClick);
   }
 
   function closeErrorPopup() {
+    const errorMessage = templateError.cloneNode(true);
+    const errorButton = errorMessage.querySelector(`.error__button`);
     const errorContainer = main.querySelector(`.error`);
-    errorContainer.remove();
-    window.removeEventListener(`keydown`, onPopupErrorHandler);
+    errorContainer.classList.add(`hidden`);
+    window.removeEventListener(`keydown`, onPopupErrorKeydown);
+    errorMessage.removeEventListener(`click`, onPopupErrorClick);
+    errorButton.removeEventListener(`click`, onPopupErrorClick);
   }
 
   function closeSuccessPopup() {
     const successContainer = main.querySelector(`.success`);
     successContainer.remove();
-    window.removeEventListener(`keydown`, onPopupEscPress);
+    window.removeEventListener(`keydown`, onPopupSuccessEscPress);
   }
 
-  function onPopupEscPress(evt) {
-    if (evt.key === `Escape` || evt.button === 0) {
+  function onPopupSuccessEscPress(evt) {
+    if (evt.keyCode === window.main.ESC_KEYCODE) {
       closeSuccessPopup();
     }
   }
 
-  function onPopupErrorHandler(evt) {
-    if (evt.key === `Escape` || evt.button === 0) {
+  function onPopupSuccessClick() {
+    closeSuccessPopup();
+  }
+
+  function onPopupErrorKeydown(evt) {
+    if (evt.keyCode === window.main.ESC_KEYCODE) {
       evt.preventDefault();
       closeErrorPopup();
     }
+  }
+
+  function onPopupErrorClick(evt) {
+    evt.preventDefault();
+    closeErrorPopup();
   }
 
   function getDisabledPage() {
@@ -83,10 +96,11 @@
     window.card.closeAllPopups();
     window.main.adForm.reset();
     window.main.mapForm.reset();
-    window.main.toggleDisabledInput(window.main.adForm);
-    window.main.toggleDisabledInput(window.main.mapForm);
-    window.pin.mapPinMain.addEventListener(`mousedown`, window.pin.onPinActiveHandler);
-    window.pin.mapPinMain.addEventListener(`keydown`, window.pin.onPinActiveHandler);
+    window.main.toggleDisabledInput(window.main.adFormChildren);
+    window.main.toggleDisabledInput(window.main.mapFiltersFormChildren);
+    window.pin.inputAddress.value = `${window.pin.mapPinMain.offsetLeft + window.pin.WIDTH_MAIN_MARKER / 2}, ${window.pin.mapPinMain.offsetTop + window.pin.HEIGHT_MAIN_MARKER / 2}`;
+    window.pin.mapPinMain.addEventListener(`mousedown`, window.pin.onPinActiveClick);
+    window.pin.mapPinMain.addEventListener(`keydown`, window.pin.onPinActiveKeydown);
   }
 
   buttonReset.addEventListener(`click`, function () {

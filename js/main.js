@@ -5,10 +5,14 @@
   const adForm = document.querySelector(`.ad-form`);
   const adFormChildren = document.querySelector(`.ad-form`).children;
   const mapForm = document.querySelector(`.map__filters`);
-  const mapFiltersFormChildren = mapForm.children;
+  const mapFiltersFormChildren = document.querySelector(`.map__filters`).children;
   const mapPins = map.querySelector(`.map__pins`);
 
   let mapMarkers = [];
+
+  const ENTER_KEYCODE = 13;
+  const ESC_KEYCODE = 27;
+  const BUTTON_LEFT_CODE = 0;
 
   function getRandomValue(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -20,8 +24,8 @@
     }
   }
 
-  toggleDisabledInput(adForm);
-  toggleDisabledInput(mapForm);
+  toggleDisabledInput(adFormChildren);
+  toggleDisabledInput(mapFiltersFormChildren);
 
   function createErrorWarning(message) {
     const node = document.createElement(`div`);
@@ -71,6 +75,9 @@
     mapFiltersFormChildren,
     mapPins,
     mapMarkers,
+    ENTER_KEYCODE,
+    ESC_KEYCODE,
+    BUTTON_LEFT_CODE,
     getRandomValue,
     toggleDisabledInput,
     getTypePlace,

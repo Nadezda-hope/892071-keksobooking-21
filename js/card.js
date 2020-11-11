@@ -45,8 +45,14 @@
 
     window.main.map.insertBefore(advertCard, mapFiltersContainer);
 
-    function onCardCloseHandler(evt) {
-      if (evt.key === `Escape` || evt.key === `Enter` || evt.button === 0) {
+    function onCardCKeydown(evt) {
+      if (evt.keyCode === window.main.ESC_KEYCODE || evt.keyCode === window.main.ENTER_KEYCODE) {
+        closeCard();
+      }
+    }
+
+    function onCardClick(evt) {
+      if (evt.button === window.main.BUTTON_LEFT_CODE) {
         closeCard();
       }
     }
@@ -56,13 +62,13 @@
       for (let i = 0; i < shownPins.length; i++) {
         shownPins[i].classList.remove(`map__pin--active`);
       }
-      window.removeEventListener(`keydown`, onCardCloseHandler);
-      cardClose.removeEventListener(`click`, onCardCloseHandler);
+      window.removeEventListener(`keydown`, onCardCKeydown);
+      cardClose.removeEventListener(`click`, onCardClick);
       advertCard.remove();
     }
 
-    window.addEventListener(`keydown`, onCardCloseHandler);
-    cardClose.addEventListener(`click`, onCardCloseHandler);
+    window.addEventListener(`keydown`, onCardCKeydown);
+    cardClose.addEventListener(`click`, onCardClick);
   }
 
   window.card = {
