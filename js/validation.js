@@ -65,13 +65,12 @@
   window.main.adForm.addEventListener(`submit`, function (evt) {
     evt.preventDefault();
     if (adInputTitle.validity.valueMissing) {
-      adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`
+      adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
     }
     if (adInputPrice.validity.valid) {
-      adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`
+      adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
     }
   });
-  console.log(adInputPrice.validity)
 
   window.validation = {
     adSelectRooms,
