@@ -800,15 +800,6 @@ fieldset {
   text-align: center;
 }
 
-/* input:invalid:required{
-  border-color: #900;
-  background-color: #FDD;
-} */
-
-/* input:focus:invalid {
-  outline: none;
-} */
-
 .ad-form__submit {
   font-size: 22px;
   font-weight: 700;
