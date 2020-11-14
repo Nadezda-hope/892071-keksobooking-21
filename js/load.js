@@ -6,7 +6,7 @@
     OK: 200
   };
 
-  window.load = function (onSuccess, onError) {
+  const load = (onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
@@ -29,5 +29,9 @@
 
     xhr.open(`GET`, URL_LOAD);
     xhr.send();
+  };
+
+  window.load = {
+    load
   };
 })();

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.pin.mapPinMain.addEventListener(`mousedown`, function (evt) {
+  window.pin.mapPinMain.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
 
     let startCoords = {
@@ -9,7 +9,7 @@
       y: evt.clientY
     };
 
-    function onMouseMove(moveEvt) {
+    const onMouseMove = (moveEvt) => {
       moveEvt.preventDefault();
       const MIN_Y = 130;
       const MAX_Y = 630;
@@ -31,13 +31,13 @@
         window.pin.mapPinMain.style.left = (window.pin.mapPinMain.offsetLeft - shift.x) + `px`;
       }
       window.pin.inputAddress.value = `${Math.floor(window.pin.mapPinMain.offsetLeft + window.pin.WIDTH_MARKER / 2)}, ${Math.floor(window.pin.mapPinMain.offsetTop + window.pin.HEIGHT_MARKER)}`;
-    }
+    };
 
-    function onMouseUp(upEvt) {
+    const onMouseUp = (upEvt) => {
       upEvt.preventDefault();
       window.main.map.removeEventListener(`mousemove`, onMouseMove);
       window.main.map.removeEventListener(`mouseup`, onMouseUp);
-    }
+    };
 
     window.main.map.addEventListener(`mousemove`, onMouseMove);
     window.main.map.addEventListener(`mouseup`, onMouseUp);

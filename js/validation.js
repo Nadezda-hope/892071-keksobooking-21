@@ -7,8 +7,9 @@
   const adSelectTimeout = window.main.adForm.querySelector(`#timeout`);
   const adSelectType = window.main.adForm.querySelector(`#type`);
   const adInputPrice = window.main.adForm.querySelector(`#price`);
+  const adInputTitle = document.querySelector(`#title`);
 
-  function changeCapacity() {
+  const changeCapacity = () => {
     const selectRoomsValue = adSelectRooms.value;
     const selectGuestsValue = adSelectGuests.value;
 
@@ -26,13 +27,13 @@
       adSelectRooms.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
     }
     adSelectGuests.reportValidity();
-  }
+  };
 
-  function changeCheckIn() {
+  const changeCheckIn = () => {
     adSelectTimeout.value = adSelectTimein.value;
-  }
+  };
 
-  function changeTypeOfPlace() {
+  const changeTypeOfPlace = () => {
     switch (adSelectType.value) {
       case `bungalow`:
         adInputPrice.placeholder = 0;
@@ -53,13 +54,24 @@
       default: adInputPrice.placeholder = 5000;
         adInputPrice.min = 5000;
     }
-  }
+  };
 
   adSelectRooms.addEventListener(`change`, changeCapacity);
   adSelectGuests.addEventListener(`change`, changeCapacity);
   adSelectTimein.addEventListener(`change`, changeCheckIn);
   adSelectTimeout.addEventListener(`change`, changeCheckIn);
   adSelectType.addEventListener(`change`, changeTypeOfPlace);
+
+  window.main.adForm.addEventListener(`submit`, function (evt) {
+    evt.preventDefault();
+    if (adInputTitle.validity.valueMissing) {
+      adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`
+    }
+    if (adInputPrice.validity.valid) {
+      adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`
+    }
+  });
+  console.log(adInputPrice.validity)
 
   window.validation = {
     adSelectRooms,

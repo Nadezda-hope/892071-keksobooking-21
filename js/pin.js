@@ -14,7 +14,7 @@
   const MAX_SIMILAR_MARKERS = 5;
   inputAddress.value = `${Math.floor(coordPinLeft + WIDTH_MAIN_MARKER / 2)}, ${Math.floor(coordPinTop + HEIGHT_MAIN_MARKER / 2)}`;
 
-  function getMarkers(markers) {
+  const getMarkers = (markers) => {
     let amount = markers.length > MAX_SIMILAR_MARKERS ? MAX_SIMILAR_MARKERS : markers.length;
     for (let i = 0; i < amount; i++) {
       const currentMarker = markers[i];
@@ -31,8 +31,8 @@
         markerElement.classList.add(`hidden`);
       }
 
-      markerElement.addEventListener(`click`, function (evt) {
-        const shownPins = window.main.map.querySelector(`.map__pins`).children;
+      markerElement.addEventListener(`click`, (evt) => {
+        const shownPins = window.main.map.querySelectorAll(`.map__pin`);
         for (let j = 1; j < shownPins.length; j++) {
           shownPins[j].classList.remove(`map__pin--active`);
         }
@@ -42,9 +42,9 @@
         window.card.createCard(currentMarker);
       });
     }
-  }
+  };
 
-  function showPage(data) {
+  const showPage = (data) => {
     window.main.mapMarkers = data;
     window.main.map.classList.remove(`map--faded`);
     window.main.adForm.classList.remove(`ad-form--disabled`);
@@ -53,21 +53,21 @@
     window.main.toggleDisabledInput(window.main.mapFiltersFormChildren);
     mapPinMain.removeEventListener(`mousedown`, onPinActiveClick);
     mapPinMain.removeEventListener(`keydown`, onPinActiveKeydown);
-  }
+  };
 
-  function onPinActiveKeydown(evt) {
+  const onPinActiveKeydown = (evt) => {
     if (evt.keyCode === window.main.ENTER_KEYCODE) {
-      window.load(showPage, window.main.createErrorWarning);
+      window.load.load(showPage, window.main.createErrorWarning);
       inputAddress.value = `${Math.floor(coordPinLeft + WIDTH_MARKER / 2)}, ${Math.floor(coordPinTop + HEIGHT_MARKER)}`;
     }
-  }
+  };
 
-  function onPinActiveClick(evt) {
+  const onPinActiveClick = (evt) => {
     if (evt.button === window.main.BUTTON_LEFT_CODE) {
-      window.load(showPage, window.main.createErrorWarning);
+      window.load.load(showPage, window.main.createErrorWarning);
       inputAddress.value = `${Math.floor(coordPinLeft + WIDTH_MARKER / 2)}, ${Math.floor(coordPinTop + HEIGHT_MARKER)}`;
     }
-  }
+  };
 
   mapPinMain.addEventListener(`mousedown`, onPinActiveClick);
   mapPinMain.addEventListener(`keydown`, onPinActiveKeydown);
