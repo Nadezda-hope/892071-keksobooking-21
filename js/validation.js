@@ -9,7 +9,7 @@
   const adInputPrice = window.main.adForm.querySelector(`#price`);
   const adInputTitle = document.querySelector(`#title`);
 
-  const changeCapacity = () => {
+  const checkValidity = () => {
     const selectRoomsValue = adSelectRooms.value;
     const selectGuestsValue = adSelectGuests.value;
 
@@ -19,7 +19,11 @@
 
     const isValid = selectRoomsValue === selectGuestsValue || isValidTwoRooms || isValidThreeRooms || isValidHundredRooms;
 
-    if (isValid) {
+    return isValid;
+  }
+
+  const changeCapacity = () => {
+    if (checkValidity()) {
       adSelectGuests.setCustomValidity(``);
       adSelectRooms.setCustomValidity(``);
     } else {
@@ -69,9 +73,12 @@
     }
     if (adInputPrice.validity.valid) {
       adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
+    } 
+    if (!checkValidity()) {
+      adSelectGuests.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
     }
   });
-  
+
   window.validation = {
     adSelectRooms,
     adSelectGuests
