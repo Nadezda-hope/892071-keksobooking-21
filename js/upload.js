@@ -10,7 +10,7 @@
     OK: 200
   };
 
-  function upload(data, onSuccess) {
+  const upload = (data, onSuccess) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
@@ -24,58 +24,71 @@
 
     xhr.open(`POST`, URL);
     xhr.send(data);
-  }
+  };
 
-  window.main.adForm.addEventListener(`submit`, function (evt) {
+  window.main.adForm.addEventListener(`submit`, (evt) => {
     upload(new FormData(window.main.adForm), successHandler);
     evt.preventDefault();
   });
 
-  function successHandler() {
+  const successHandler = () => {
     const successMessage = templateSuccess.cloneNode(true);
     successMessage.classList.add(`success`);
     main.appendChild(successMessage);
-    window.addEventListener(`keydown`, onPopupEscPress);
-    successMessage.addEventListener(`click`, onPopupEscPress);
+    window.addEventListener(`keydown`, onPopupSuccessEscPress);
+    successMessage.addEventListener(`click`, onPopupSuccessClick);
     getDisabledPage();
-  }
+  };
 
-  function errorHandler() {
+  const errorHandler = () => {
     const errorMessage = templateError.cloneNode(true);
+    const errorButton = errorMessage.querySelector(`.error__button`);
     errorMessage.classList.add(`error`);
     main.appendChild(errorMessage);
-    window.addEventListener(`keydown`, onPopupErrorHandler);
-    errorMessage.addEventListener(`click`, onPopupErrorHandler);
+    window.addEventListener(`keydown`, onPopupErrorKeydown);
+    errorMessage.addEventListener(`click`, onPopupErrorClick);
+    errorButton.addEventListener(`click`, onPopupErrorClick);
+  };
+
+  const closeErrorPopup = () => {
+    const errorMessage = main.querySelector(`.error`);
     const errorButton = errorMessage.querySelector(`.error__button`);
-    errorButton.addEventListener(`mousedown`, onPopupErrorHandler);
-  }
+    errorMessage.remove();
+    window.removeEventListener(`keydown`, onPopupErrorKeydown);
+    errorMessage.removeEventListener(`click`, onPopupErrorClick);
+    errorButton.removeEventListener(`click`, onPopupErrorClick);
+  };
 
-  function closeErrorPopup() {
-    const errorContainer = main.querySelector(`.error`);
-    errorContainer.remove();
-    window.removeEventListener(`keydown`, onPopupErrorHandler);
-  }
+  const closeSuccessPopup = () => {
+    const successMessage = main.querySelector(`.success`);
+    successMessage.remove();
+    window.removeEventListener(`keydown`, onPopupSuccessEscPress);
+    successMessage.removeEventListener(`click`, onPopupSuccessClick);
+  };
 
-  function closeSuccessPopup() {
-    const successContainer = main.querySelector(`.success`);
-    successContainer.remove();
-    window.removeEventListener(`keydown`, onPopupEscPress);
-  }
-
-  function onPopupEscPress(evt) {
-    if (evt.key === `Escape` || evt.button === 0) {
+  const onPopupSuccessEscPress = (evt) => {
+    if (evt.keyCode === window.main.ESC_KEYCODE) {
       closeSuccessPopup();
     }
-  }
+  };
 
-  function onPopupErrorHandler(evt) {
-    if (evt.key === `Escape` || evt.button === 0) {
+  const onPopupSuccessClick = () => {
+    closeSuccessPopup();
+  };
+
+  const onPopupErrorKeydown = (evt) => {
+    if (evt.keyCode === window.main.ESC_KEYCODE) {
       evt.preventDefault();
       closeErrorPopup();
     }
-  }
+  };
 
-  function getDisabledPage() {
+  const onPopupErrorClick = (evt) => {
+    evt.preventDefault();
+    closeErrorPopup();
+  };
+
+  const getDisabledPage = () => {
     window.pin.mapPinMain.style = `top: 375px; left: 570px`;
     window.main.map.classList.add(`map--faded`);
     window.main.adForm.classList.add(`ad-form--disabled`);
@@ -83,13 +96,14 @@
     window.card.closeAllPopups();
     window.main.adForm.reset();
     window.main.mapForm.reset();
-    window.main.toggleDisabledInput(window.main.adForm);
-    window.main.toggleDisabledInput(window.main.mapForm);
-    window.pin.mapPinMain.addEventListener(`mousedown`, window.pin.onPinActiveHandler);
-    window.pin.mapPinMain.addEventListener(`keydown`, window.pin.onPinActiveHandler);
-  }
+    window.main.toggleDisabledInput(window.main.adFormChildren);
+    window.main.toggleDisabledInput(window.main.mapFiltersFormChildren);
+    window.pin.inputAddress.value = `${window.pin.mapPinMain.offsetLeft + window.pin.WIDTH_MAIN_MARKER / 2}, ${window.pin.mapPinMain.offsetTop + window.pin.HEIGHT_MAIN_MARKER / 2}`;
+    window.pin.mapPinMain.addEventListener(`mousedown`, window.pin.onPinActiveClick);
+    window.pin.mapPinMain.addEventListener(`keydown`, window.pin.onPinActiveKeydown);
+  };
 
-  buttonReset.addEventListener(`click`, function () {
+  buttonReset.addEventListener(`click`, () => {
     getDisabledPage();
   });
 })();

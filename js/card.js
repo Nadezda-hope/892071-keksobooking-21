@@ -4,17 +4,20 @@
   const templateCard = document.querySelector(`#card`).content.querySelector(`.map__card`);
   const mapFiltersContainer = document.querySelector(`.map__filters-container`);
 
-  function closeAllPopups() {
+  const closeAllPopups = () => {
     const prevElement = document.querySelector(`.map > .map__card`);
+    const cardButton = document.querySelector(`.popup__close`);
     if (prevElement) {
+      window.removeEventListener(`keydown`, onCardCKeydown);
+      cardButton.removeEventListener(`click`, onCardClick);
       prevElement.remove();
     }
-  }
+  };
 
-  function createCard(marker) {
+  const createCard = (marker) => {
     closeAllPopups();
     const advertCard = templateCard.cloneNode(true);
-    const cardClose = advertCard.querySelector(`.popup__close`);
+    const cardCloseButton = advertCard.querySelector(`.popup__close`);
     advertCard.classList.add(`map__card`);
 
     advertCard.querySelector(`.popup__title`).textContent = marker.offer.title;
@@ -45,26 +48,33 @@
 
     window.main.map.insertBefore(advertCard, mapFiltersContainer);
 
-    function onCardCloseHandler(evt) {
-      if (evt.key === `Escape` || evt.key === `Enter` || evt.button === 0) {
-        closeCard();
-      }
+    window.addEventListener(`keydown`, onCardCKeydown);
+    cardCloseButton.addEventListener(`click`, onCardClick);
+  };
+
+  const onCardCKeydown = (evt) => {
+    if (evt.keyCode === window.main.ESC_KEYCODE || evt.keyCode === window.main.ENTER_KEYCODE) {
+      closeCard();
     }
+  };
 
-    function closeCard() {
-      const shownPins = window.main.map.querySelectorAll(`.map__pin`);
-      for (let i = 0; i < shownPins.length; i++) {
-        shownPins[i].classList.remove(`map__pin--active`);
-      }
-      window.removeEventListener(`keydown`, onCardCloseHandler);
-      cardClose.removeEventListener(`click`, onCardCloseHandler);
-      advertCard.remove();
+  const onCardClick = (evt) => {
+    if (evt.button === window.main.BUTTON_LEFT_CODE) {
+      closeCard();
     }
+  };
 
-    window.addEventListener(`keydown`, onCardCloseHandler);
-    cardClose.addEventListener(`click`, onCardCloseHandler);
-  }
-
+  const closeCard = () => {
+    const activeCard = document.querySelector(`.map__card`);
+    const cardButton = activeCard.querySelector(`.popup__close`);
+    const shownPins = window.main.map.querySelectorAll(`.map__pin`);
+    for (let i = 0; i < shownPins.length; i++) {
+      shownPins[i].classList.remove(`map__pin--active`);
+    }
+    window.removeEventListener(`keydown`, onCardCKeydown);
+    cardButton.removeEventListener(`click`, onCardClick);
+    activeCard.remove();
+  };
   window.card = {
     createCard,
     closeAllPopups
