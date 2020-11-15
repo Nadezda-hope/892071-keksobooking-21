@@ -20,7 +20,7 @@
     const isValid = selectRoomsValue === selectGuestsValue || isValidTwoRooms || isValidThreeRooms || isValidHundredRooms;
 
     return isValid;
-  }
+  };
 
   const changeCapacity = () => {
     if (checkValidity()) {
@@ -73,7 +73,7 @@
     }
     if (adInputPrice.validity.valid) {
       adInputPrice.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
-    } 
+    }
     if (!checkValidity()) {
       adSelectGuests.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
     }
