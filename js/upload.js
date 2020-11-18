@@ -1,11 +1,11 @@
 'use strict';
 
-(function () {
+(() => {
+  const URL = `https://21.javascript.pages.academy/keksobooking`;
   const main = document.querySelector(`main`);
   const templateError = document.querySelector(`#error`).content.querySelector(`.error`);
   const templateSuccess = document.querySelector(`#success`).content.querySelector(`.success`);
   const buttonReset = document.querySelector(`.ad-form__reset`);
-  const URL = `https://21.javascript.pages.academy/keksobooking`;
   const statusCode = {
     OK: 200
   };

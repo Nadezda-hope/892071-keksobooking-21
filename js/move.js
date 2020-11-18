@@ -1,7 +1,13 @@
 'use strict';
 
-(function () {
-  window.pin.mapPinMain.addEventListener(`mousedown`, (evt) => {
+(() => {
+  const MIN_Y = 130;
+  const MAX_Y = 630;
+  const MIN_X = 0;
+  const MAX_X = 1200;
+  const mainPin = document.querySelector(`.map__pin--main`);
+
+  mainPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
 
     let startCoords = {
@@ -11,10 +17,6 @@
 
     const onMouseMove = (moveEvt) => {
       moveEvt.preventDefault();
-      const MIN_Y = 130;
-      const MAX_Y = 630;
-      const MIN_X = 0;
-      const MAX_X = 1200;
 
       let shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -26,11 +28,11 @@
         y: moveEvt.clientY
       };
 
-      if (window.pin.mapPinMain.offsetTop - shift.y + window.pin.HEIGHT_MARKER >= MIN_Y && window.pin.mapPinMain.offsetTop - shift.y + window.pin.HEIGHT_MARKER <= MAX_Y && window.pin.mapPinMain.offsetLeft - shift.x + (window.pin.WIDTH_MARKER / 2) >= MIN_X && window.pin.mapPinMain.offsetLeft - shift.x + (window.pin.WIDTH_MARKER / 2) <= MAX_X) {
-        window.pin.mapPinMain.style.top = (window.pin.mapPinMain.offsetTop - shift.y) + `px`;
-        window.pin.mapPinMain.style.left = (window.pin.mapPinMain.offsetLeft - shift.x) + `px`;
+      if (mainPin.offsetTop - shift.y + window.pin.HEIGHT_MARKER >= MIN_Y && mainPin.offsetTop - shift.y + window.pin.HEIGHT_MARKER <= MAX_Y && mainPin.offsetLeft - shift.x + (window.pin.WIDTH_MARKER / 2) >= MIN_X && mainPin.offsetLeft - shift.x + (window.pin.WIDTH_MARKER / 2) <= MAX_X) {
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
       }
-      window.pin.inputAddress.value = `${Math.floor(window.pin.mapPinMain.offsetLeft + window.pin.WIDTH_MARKER / 2)}, ${Math.floor(window.pin.mapPinMain.offsetTop + window.pin.HEIGHT_MARKER)}`;
+      window.pin.inputAddress.value = `${Math.floor(mainPin.offsetLeft + window.pin.WIDTH_MARKER / 2)}, ${Math.floor(mainPin.offsetTop + window.pin.HEIGHT_MARKER)}`;
     };
 
     const onMouseUp = (upEvt) => {

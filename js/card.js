@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(() => {
   const templateCard = document.querySelector(`#card`).content.querySelector(`.map__card`);
   const mapFiltersContainer = document.querySelector(`.map__filters-container`);
 

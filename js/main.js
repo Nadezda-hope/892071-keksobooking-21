@@ -1,15 +1,15 @@
 'use strict';
 
-(function () {
+(() => {
+  const ENTER_KEYCODE = 13;
+  const ESC_KEYCODE = 27;
+  const BUTTON_LEFT_CODE = 0;
   const map = document.querySelector(`.map`);
   const adForm = document.querySelector(`.ad-form`);
   const adFormChildren = document.querySelector(`.ad-form`).children;
   const mapForm = document.querySelector(`.map__filters`);
   const mapFiltersFormChildren = document.querySelector(`.map__filters`).children;
   const mapPins = map.querySelector(`.map__pins`);
-  const ENTER_KEYCODE = 13;
-  const ESC_KEYCODE = 27;
-  const BUTTON_LEFT_CODE = 0;
   let mapMarkers = [];
 
   const toggleDisabledInput = (elements) => {
@@ -56,12 +56,15 @@
 
   const delPrevElements = () => {
     const prevPins = document.querySelectorAll(`.map__pin`);
-    for (let i = 1; i < prevPins.length; i++) {
-      prevPins[i].remove();
-    }
+    prevPins.forEach((item) => {
+      item.remove();
+    });
   };
 
   window.main = {
+    ENTER_KEYCODE,
+    ESC_KEYCODE,
+    BUTTON_LEFT_CODE,
     map,
     mapForm,
     adForm,
@@ -69,9 +72,6 @@
     mapFiltersFormChildren,
     mapPins,
     mapMarkers,
-    ENTER_KEYCODE,
-    ESC_KEYCODE,
-    BUTTON_LEFT_CODE,
     toggleDisabledInput,
     getTypePlace,
     getSrcPhotos,

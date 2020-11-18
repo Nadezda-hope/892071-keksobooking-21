@@ -1,6 +1,8 @@
 'use strict';
 
-(function () {
+(() => {
+  const MIN_PRICE = 10000;
+  const MAX_PRICE = 50000;
   let typeOfHouse = `any`;
   let priceOfHouse = `any`;
   let roomsOfHouse = `any`;
@@ -21,8 +23,6 @@
 
   const updateMarkers = () => {
     let filteredMarkers = [...window.main.mapMarkers];
-    const MIN_PRICE = 10000;
-    const MAX_PRICE = 50000;
     const selectedFeauters = Object.keys(features).filter((feature) => {
       return features[feature];
     });
