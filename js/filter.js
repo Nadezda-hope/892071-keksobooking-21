@@ -13,7 +13,6 @@
     elevator: false,
     conditioner: false
   };
-
   const mapSelectType = document.querySelector(`#housing-type`);
   const mapSelectPrice = document.querySelector(`#housing-price`);
   const mapSelectRooms = document.querySelector(`#housing-rooms`);
@@ -22,6 +21,8 @@
 
   const updateMarkers = () => {
     let filteredMarkers = [...window.main.mapMarkers];
+    const MIN_PRICE = 10000;
+    const MAX_PRICE = 50000;
     const selectedFeauters = Object.keys(features).filter((feature) => {
       return features[feature];
     });
@@ -36,17 +37,17 @@
       switch (priceOfHouse) {
         case `low`:
           filteredMarkers = filteredMarkers.filter((marker) => {
-            return marker.offer.price <= 10000;
+            return marker.offer.price <= MIN_PRICE;
           });
           break;
         case `middle`:
           filteredMarkers = filteredMarkers.filter((marker) => {
-            return marker.offer.price > 10000 && marker.offer.price < 50000;
+            return marker.offer.price > MIN_PRICE && marker.offer.price < MAX_PRICE;
           });
           break;
         case `high`:
           filteredMarkers = filteredMarkers.filter((marker) => {
-            return marker.offer.price >= 50000;
+            return marker.offer.price >= MAX_PRICE;
           });
           break;
       }
@@ -108,8 +109,4 @@
     });
     renderFilteredMarkers();
   }));
-
-  window.filter = {
-    updateMarkers
-  };
 })();

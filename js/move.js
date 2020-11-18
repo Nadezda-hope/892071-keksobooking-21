@@ -35,11 +35,11 @@
 
     const onMouseUp = (upEvt) => {
       upEvt.preventDefault();
-      window.main.map.removeEventListener(`mousemove`, onMouseMove);
-      window.main.map.removeEventListener(`mouseup`, onMouseUp);
+      document.removeEventListener(`mousemove`, onMouseMove);
+      document.removeEventListener(`mouseup`, onMouseUp);
     };
 
-    window.main.map.addEventListener(`mousemove`, onMouseMove);
-    window.main.map.addEventListener(`mouseup`, onMouseUp);
+    document.addEventListener(`mousemove`, onMouseMove);
+    document.addEventListener(`mouseup`, onMouseUp);
   });
 })();

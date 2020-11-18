@@ -7,16 +7,10 @@
   const mapForm = document.querySelector(`.map__filters`);
   const mapFiltersFormChildren = document.querySelector(`.map__filters`).children;
   const mapPins = map.querySelector(`.map__pins`);
-
-  let mapMarkers = [];
-
   const ENTER_KEYCODE = 13;
   const ESC_KEYCODE = 27;
   const BUTTON_LEFT_CODE = 0;
-
-  const getRandomValue = (min, max) => {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
+  let mapMarkers = [];
 
   const toggleDisabledInput = (elements) => {
     for (let i = 0; i < elements.length; i++) {
@@ -78,7 +72,6 @@
     ENTER_KEYCODE,
     ESC_KEYCODE,
     BUTTON_LEFT_CODE,
-    getRandomValue,
     toggleDisabledInput,
     getTypePlace,
     getSrcPhotos,

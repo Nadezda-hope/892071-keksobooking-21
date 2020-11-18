@@ -43,7 +43,11 @@
     if (marker.offer.features.length === 0) {
       advertCard.querySelector(`.popup__features`).classList.add(`hidden`);
     } else {
-      advertCard.querySelector(`.popup__feature`).textContent = marker.offer.features;
+      Array.from(advertCard.querySelector(`.popup__features`).children).forEach((child) => {
+        if (!marker.offer.features.includes(child.dataset.feature)) {
+          child.remove();
+        }
+      });
     }
 
     window.main.map.insertBefore(advertCard, mapFiltersContainer);
@@ -68,9 +72,9 @@
     const activeCard = document.querySelector(`.map__card`);
     const cardButton = activeCard.querySelector(`.popup__close`);
     const shownPins = window.main.map.querySelectorAll(`.map__pin`);
-    for (let i = 0; i < shownPins.length; i++) {
-      shownPins[i].classList.remove(`map__pin--active`);
-    }
+    shownPins.forEach((pin) => {
+      pin.classList.remove(`map__pin--active`);
+    });
     window.removeEventListener(`keydown`, onCardCKeydown);
     cardButton.removeEventListener(`click`, onCardClick);
     activeCard.remove();

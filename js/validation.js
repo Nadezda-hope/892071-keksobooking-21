@@ -22,22 +22,24 @@
     return isValid;
   };
 
-  const changeCapacity = () => {
+  const capacityChangeHandler = () => {
     if (checkValidity()) {
       adSelectGuests.setCustomValidity(``);
-      adSelectRooms.setCustomValidity(``);
     } else {
       adSelectGuests.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
-      adSelectRooms.setCustomValidity(`Количество гостей не соответствует количеству комнат`);
     }
     adSelectGuests.reportValidity();
   };
 
-  const changeCheckIn = () => {
+  const checkInChangeHandler = () => {
     adSelectTimeout.value = adSelectTimein.value;
   };
 
-  const changeTypeOfPlace = () => {
+  const checkOutChangeHandler = () => {
+    adSelectTimein.value = adSelectTimeout.value;
+  };
+
+  const typeOfPlaceChangeHandler = () => {
     switch (adSelectType.value) {
       case `bungalow`:
         adInputPrice.placeholder = 0;
@@ -60,13 +62,13 @@
     }
   };
 
-  adSelectRooms.addEventListener(`change`, changeCapacity);
-  adSelectGuests.addEventListener(`change`, changeCapacity);
-  adSelectTimein.addEventListener(`change`, changeCheckIn);
-  adSelectTimeout.addEventListener(`change`, changeCheckIn);
-  adSelectType.addEventListener(`change`, changeTypeOfPlace);
+  adSelectRooms.addEventListener(`change`, capacityChangeHandler);
+  adSelectGuests.addEventListener(`change`, capacityChangeHandler);
+  adSelectTimein.addEventListener(`change`, checkInChangeHandler);
+  adSelectTimeout.addEventListener(`change`, checkOutChangeHandler);
+  adSelectType.addEventListener(`change`, typeOfPlaceChangeHandler);
 
-  window.main.adForm.addEventListener(`submit`, function (evt) {
+  window.main.adForm.addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     if (adInputTitle.validity.valueMissing) {
       adInputTitle.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
@@ -78,9 +80,4 @@
       adSelectGuests.style = `border: 2px solid rgba(255, 0, 0, 0.5);`;
     }
   });
-
-  window.validation = {
-    adSelectRooms,
-    adSelectGuests
-  };
 })();

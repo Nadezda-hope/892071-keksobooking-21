@@ -14,12 +14,12 @@
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === statusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
+    xhr.addEventListener(`load`, () => {
+      if (xhr.status !== statusCode.OK) {
         errorHandler();
+        return;
       }
+      onSuccess(xhr.response);
     });
 
     xhr.open(`POST`, URL);

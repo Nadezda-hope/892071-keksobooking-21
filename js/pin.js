@@ -31,14 +31,12 @@
         markerElement.classList.add(`hidden`);
       }
 
-      markerElement.addEventListener(`click`, (evt) => {
-        const shownPins = window.main.map.querySelectorAll(`.map__pin`);
-        for (let j = 1; j < shownPins.length; j++) {
-          shownPins[j].classList.remove(`map__pin--active`);
+      markerElement.addEventListener(`click`, () => {
+        const currentActivePin = window.main.map.querySelector(`.map__pin--active`);
+        if (currentActivePin) {
+          currentActivePin.classList.remove(`map__pin--active`);
         }
-        if (evt.target.classList.contains(`map__pin--img`)) {
-          evt.target.parentElement.classList.add(`map__pin--active`);
-        }
+        markerElement.classList.add(`map__pin--active`);
         window.card.createCard(currentMarker);
       });
     }
@@ -81,7 +79,6 @@
     HEIGHT_MAIN_MARKER,
     WIDTH_MARKER,
     HEIGHT_MARKER,
-    templatePin,
     mapPinMain,
   };
 })();
